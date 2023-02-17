@@ -14,5 +14,10 @@ while (isSunk == false) {
         alert("please enter a valid cell number!")
     }else {
         guesses = guesses + 1
+
+        if (guess == location1 || location2 || location3){
+            hits = hits + 1;
+        }
+
     }
 }
