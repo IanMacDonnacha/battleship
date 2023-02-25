@@ -1,3 +1,4 @@
+/*
 let randomLoc = Math.floor(Math.random() * 5)
 let location1 = randomLoc;
 let location2 = location1 + 1;
@@ -31,3 +32,4 @@ while (isSunk == false) {
 let stats = `You took ${guesses} guesses to sink the battleship, which means your shooting accuracy was ${3 / guesses}`;
 
 alert(stats);
+*/
