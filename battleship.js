@@ -1,4 +1,4 @@
-/*
+/* Old Code
 let randomLoc = Math.floor(Math.random() * 5)
 let location1 = randomLoc;
 let location2 = location1 + 1;
@@ -33,3 +33,24 @@ let stats = `You took ${guesses} guesses to sink the battleship, which means you
 
 alert(stats);
 */
+
+//New Code
+let view = {
+    displayMessage: function(msg) {
+        let messageArea = document.getElementById("messageArea");
+        messageArea.innerHTML = msg;
+    },
+    displayHit: function(location) {
+        let cell = document.getElementById(location);
+        cell.setAttribute("class", "hit");
+
+    },
+    displayMiss: function(location){
+        let cell = document.getElementById(location);
+        cell.setAttribute("class", "miss");
+    }
+};
+
+let ships = [{ location: ["06", "16", "26"], hits: ["hit", "", ""]},
+             { location: ["24", "34", "44"], hits: ["", "", ""]},
+             { location: ["10", "11", "12"], hits: ["", "", ""]}];
