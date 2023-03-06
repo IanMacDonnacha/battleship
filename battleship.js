@@ -84,8 +84,54 @@ let model = {
             }
         }
         return true;
-    }
+    },
+    generateShipLocations: function() {
+        let locations;
+        for (let i = 0; i < this.numShips; i++) {
+            do {
+                locations = this.generateShip();
+            } while (this.collision(locations));
+            this.ships[i].locations = locations;
+        }
+    },
+    generateShip: function () {
+        let direction = Math.floor(Math.random() * 2);
+        let row;
+        let col;
+        if (direction === 1) {
+            row = Math.floor(Math.random() * this.boardSize);
+            col = Math.floor(Math.random() * (this.boardSize -(this.shipLength +1)));
+        }else {
+            row = Math.floor(Math.random() * (this.boardSize -(this.shipLength +1)));
+            col = Math.floor(Math.random() * this.boardSize);
+        }
+        let newShipLocations = [];
+        for (let i = 0; i < this.shipLength; i++) {
+            if (direction === 1) {
+                newShipLocations.push(row + "" + (col + i));
+            }else {
+                newShipLocations.push((row + i) + "" + col);
+            }
+            
+        }
+        return newShipLocations;
+    },
+
 };
+
+let controller = {
+    guesses: 0,
+    processGuess: function(guess) {
+        let location = parseGuess(guess);
+        if (location) {
+            this.guesses++;
+            let hit = model.fire(location);
+            if (hit && model.shipsSunk === model.numShips) {
+                view.displayMessage(`You sank all my battleships in ${this.guesses} guesses`)
+            }
+        }
+    }
+}
 
 function parseGuess(guess) {
     let alphabet = ["A", "B", "C", "D", "E", "F", "G"];
@@ -106,5 +152,26 @@ function parseGuess(guess) {
     }
     return null;
 }
+function init() {
+    let fireButton = document.getElementById("fireButton");
+    fireButton.onclick = handleFireButton;
+    let guessInput = document.getElementById("guessInput");
+    guessInput.onkeypress = handleKeyPress;
+}
 
-console.log(parseGuess("G3"));
+function handleKeyPress (e) {
+    let fireButton = document.getElementById("fireButton");
+    if (e.keyCode === 13) {
+        fireButton.click();
+        return false;
+    }
+}
+
+function handleFireButton() {
+    let guessInput = document.getElementById("guessInput");
+    let guess = guessInput.value;
+    controller.processGuess(guess);
+
+    guessInput.value = "";
+}
+window.onload = init;
