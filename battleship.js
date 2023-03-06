@@ -34,7 +34,7 @@ let stats = `You took ${guesses} guesses to sink the battleship, which means you
 alert(stats);
 */
 
-//New Code
+//New Code with objects 
 let view = {
     displayMessage: function(msg) {
         let messageArea = document.getElementById("messageArea");
@@ -55,9 +55,9 @@ let model = {
     numShips: 3,
     shipLength: 3,
     shipsSunk: 0,
-    ships:  [{ locations: ["06", "16", "26"], hits: ["", "", ""]},
-             { locations: ["24", "34", "44"], hits: ["", "", ""]},
-             { locations: ["10", "11", "12"], hits: ["", "", ""]}],
+    ships:  [{ locations: ["0", "0", "0"], hits: ["", "", ""]},
+             { locations: ["0", "0", "0"], hits: ["", "", ""]},
+             { locations: ["0", "0", "0"], hits: ["", "", ""]}],
     fire: function(guess) {
         for (let i = 0; i< this.numShips; i++) {
             let ship = this.ships[i];
@@ -116,6 +116,17 @@ let model = {
         }
         return newShipLocations;
     },
+    collision: function(locations) {
+        for (let i = 0; i < this.numShips; i++) {
+            let ship = this.ships[i];
+            for (let j = 0; j < locations.length; j++) {
+                if (ship.locations.indexOf(locations[j]) >= 0) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 };
 
@@ -157,6 +168,8 @@ function init() {
     fireButton.onclick = handleFireButton;
     let guessInput = document.getElementById("guessInput");
     guessInput.onkeypress = handleKeyPress;
+
+    model.generateShipLocations();
 }
 
 function handleKeyPress (e) {
